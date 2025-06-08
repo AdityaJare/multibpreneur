@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from django.contrib import messages
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables from .env file
 load_dotenv()
@@ -31,7 +32,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-c)srv0+@o**i^$2t(dhq7+e-%x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -133,6 +135,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "core" / "static",
 ]
 
+# Whitenoise configuration
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Authentication settings
 LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
 LOGOUT_REDIRECT_URL = '/'  # Redirect to home page after logout
@@ -187,7 +192,7 @@ LOGOUT_REDIRECT_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Error Handling
-ADMINS = [('Admin', os.getenv('ADMIN_EMAIL', 'rahul@multibpreneur.com'))]
+ADMINS = [('Admin', os.getenv('ADMIN_EMAIL', 'adityajare2004@gmail.com'))]
 MANAGERS = ADMINS
 
 # Security Settings
